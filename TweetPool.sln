@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetLibrary", "TweetLibrary\TweetLibrary.csproj", "{63547BA6-43F5-4CCA-A676-18A024005A96}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetPool", "TweetPool.csproj", "{97ACCFC4-D78E-4FAC-8790-56882E9AA17E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetPool.Tests", "TweetPool.Tests\TweetPool.Tests.csproj", "{60FD3EAF-D85D-49F9-8729-492E1670019B}"
@@ -24,5 +26,9 @@ Global
 		{60FD3EAF-D85D-49F9-8729-492E1670019B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60FD3EAF-D85D-49F9-8729-492E1670019B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60FD3EAF-D85D-49F9-8729-492E1670019B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63547BA6-43F5-4CCA-A676-18A024005A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63547BA6-43F5-4CCA-A676-18A024005A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63547BA6-43F5-4CCA-A676-18A024005A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63547BA6-43F5-4CCA-A676-18A024005A96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

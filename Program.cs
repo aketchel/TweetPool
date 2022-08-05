@@ -53,6 +53,8 @@ public class Program
 
         public static void MainMenu(ILog myLogger, ServiceProvider provider, string[] appArgs)
         {
+            TweetProcessor mainProcessor = new TweetProcessor();
+            TweetStatsProcessor statsProcessor = new TweetStatsProcessor();
             TweetStats mainStats = new TweetStats();
             TweetAgent myAgent = new TweetAgent(mainStats);
             
@@ -69,10 +71,10 @@ public class Program
                     switch (mainArgument)
                     {
                             case "/p":
-                                        ProcessTweets(myLogger, provider, myAgent);
+                                        mainProcessor.ProcessTweets(myLogger, provider, myAgent);
                                 break;
                             case "/s":
-                                        ProcessStats(myLogger, myAgent);
+                                        statsProcessor.ProcessStats(myLogger, myAgent);
                                 break;
                             default:
                                 Console.WriteLine("-------------------------\n");
@@ -95,83 +97,4 @@ public class Program
 
             } while (!commandEntry.ToLower().Equals("stop"));
         }
-
-        public static void ProcessStats(ILog myLogger, TweetAgent myAgent)
-        {
-
-            try
-            {
-                    TweetStats myStats = myAgent.AgentStats;
-
-                    myLogger.Info("---------------------------------\n");   
-                    myLogger.Info("Total Tweets: " + myStats.TweetCount.ToString() + "\n");
-
-                    if (myStats.HashTagLeaderboard.Count > 0)
-                    {
-                        myLogger.Info("Top Hash Tag: " + myStats.TopHashTag.ToString() + "\n");
-
-                        int numberOfHashTagsToDisplay = Convert.ToInt32(ConfigurationManager.AppSettings["TweetPool_NumberOfHashtags"]);
-
-                        foreach (KeyValuePair<string, int> hashTag in myStats.HashTagLeaderboard.OrderByDescending(d => d.Value))
-                        {
-                            numberOfHashTagsToDisplay--;
-                            myLogger.Info(hashTag.Key + ": " + hashTag.Value.ToString() + "\n");
-
-                            if (numberOfHashTagsToDisplay <= 0)
-                                break;
-                        }
-                    }
-                    else
-                        myLogger.Info("No HashTags Available for Statistical Data. " + myStats.TweetCount.ToString() + " Tweets Processed. \n");
-
-                    myLogger.Info("---------------------------------\n"); 
-            }
-            catch (Exception ex)
-            {
-                myLogger.Error("Error Processing Stats.");
-            }
-
-        }
-
-        public static async Task ProcessTweets(ILog myLogger, ServiceProvider provider, TweetAgent myAgent)
-        {
-            try
-            {
-                if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["Twitter_SampleAPIURL"]))
-                {
-                    if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["Twitter_APIKey"]))
-                    {
-                        if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["Twitter_BearerToken"]))
-                        {
-                                if (!myAgent.isProcessingActive)
-                                    await provider.GetRequiredService<IHttpClientServiceImplementation>().Execute(myLogger, myAgent, "GET", 30);
-                                else
-                                    myLogger.Warn("WARNING: Stream Processing is already active - only one active stream allowed in the current implementation.");
-                        }
-                        else
-                        {
-                            myLogger.Error("Missing Parameter [Twitter_BearerToken] within App.Config file. Please specify the Bearer Token within the configuration file.");
-                        }
-                    }
-                    else
-                    {
-                         myLogger.Error("Missing Parameter [Twitter_APIKey] within App.Config file. Please specify the API Key within the configuration file.");
-                    }
-                }
-                else
-                {
-                    myLogger.Error("Missing Parameter [Twitter_SampleAPIURL] within App.Config file. Please specify the URL within the configuration file.");
-                }
-            }
-            catch (Exception e)
-            {
-                if (myLogger != null)
-                {
-                    if (e.InnerException != null)
-                        myLogger.Error("Error while Processing Tweets " + e.InnerException.ToString());
-                    else
-                        myLogger.Error("Error while Processing Tweets " + e.Message.ToString());
-                }
-            }
-        }
-    }
+}
