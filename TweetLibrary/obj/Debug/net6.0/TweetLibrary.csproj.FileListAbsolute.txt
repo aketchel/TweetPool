@@ -1,0 +1,12 @@
+D:\aketchel\Dev\TweetPool\TweetLibrary\bin\Debug\net6.0\TweetLibrary.deps.json
+D:\aketchel\Dev\TweetPool\TweetLibrary\bin\Debug\net6.0\TweetLibrary.dll
+D:\aketchel\Dev\TweetPool\TweetLibrary\bin\Debug\net6.0\TweetLibrary.pdb
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\TweetLibrary.csproj.AssemblyReference.cache
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\TweetLibrary.GeneratedMSBuildEditorConfig.editorconfig
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\TweetLibrary.AssemblyInfoInputs.cache
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\TweetLibrary.AssemblyInfo.cs
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\TweetLibrary.csproj.CoreCompileInputs.cache
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\TweetLibrary.dll
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\refint\TweetLibrary.dll
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\TweetLibrary.pdb
+D:\aketchel\Dev\TweetPool\TweetLibrary\obj\Debug\net6.0\ref\TweetLibrary.dll

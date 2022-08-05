@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+ <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.14" />
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Company>Arthur Ketchel II</Company>
+    <Copyright>Copyright © 2022</Copyright>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <Version>1.0.0.1</Version>
+  </PropertyGroup>
+
+</Project>
