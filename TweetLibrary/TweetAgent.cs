@@ -39,13 +39,8 @@ public async Task HandleAPIResponse(HttpResponseMessage serverResponse, ILog myL
                                 List<Models.SimpleSampleStreamResponse> myTweets = new List<Models.SimpleSampleStreamResponse>();
 
                                 myLogger.Info("Successful Response Recieved... Processing Response.");
-                                //var streamString = await serverResponse.Content.ReadAsStringAsync();
-                                //myTweets = JsonSerializer.Deserialize<List<Models.SimpleSampleStreamResponse>>(streamString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                                var stream = await serverResponse.Content.ReadAsStreamAsync();
-
-                                //if (stream != null)
-                                //    myTweets = await JsonSerializer.DeserializeAsync<List<Models.SimpleSampleStreamResponse>>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                                    var stream = await serverResponse.Content.ReadAsStreamAsync();
 
                                     using (StreamReader streamReader = new StreamReader(stream))
                                     {
