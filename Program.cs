@@ -104,7 +104,7 @@ public class Program
                     TweetStats myStats = myAgent.AgentStats;
 
                     myLogger.Info("---------------------------------\n");   
-                    myLogger.Info("Total: " + myStats.TweetCount.ToString() + "\n");
+                    myLogger.Info("Total Tweets: " + myStats.TweetCount.ToString() + "\n");
 
                     if (myStats.HashTagLeaderboard.Count > 0)
                     {
