@@ -1,7 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project DependentUpon="TweetLibrary\TweetLibrary.csproj" Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="TweetLibrary\TweetLibrary.csproj" />
+    <ProjectReference Include="TweetLibrary\TweetLibrary.csproj">
+       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +18,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
   </ItemGroup>
 
@@ -26,9 +31,9 @@
     <Nullable>enable</Nullable>
     <Company>Arthur Ketchel II</Company>
     <Copyright>Copyright © 2022</Copyright>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
-    <Version>1.0.0.1</Version>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <FileVersion>1.0.0.2</FileVersion>
+    <Version>1.0.0.2</Version>
   </PropertyGroup>
 
 </Project>

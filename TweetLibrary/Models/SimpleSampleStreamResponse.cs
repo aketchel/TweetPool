@@ -30,7 +30,7 @@ using System.Text.RegularExpressions;
 /// </summary>
 public class SimpleSampleStreamResponse
     {
-        StreamResponseData myData;
+        StreamResponseData myData = new StreamResponseData();
 
         /// <summary>
         /// Tweet Data Object from Sample Stream
@@ -46,8 +46,8 @@ public class SimpleSampleStreamResponse
 
     public class StreamResponseData
     {
-        private string myID;
-        private string myText;
+        private string myID = "";
+        private string myText = "";
 
         /// <summary>
         /// Tweet Unique ID from Sample Stream

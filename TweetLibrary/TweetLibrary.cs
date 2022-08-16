@@ -2,6 +2,8 @@
 
 using System;
 using log4net;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Log4Net;
 
 public static class TweetLibrary
 {
@@ -11,9 +13,9 @@ public static class TweetLibrary
         Console.WriteLine("Hello World from TweetLibrary");
     }
 
-    public static void HelloWorldWithLogger(ILog myLogger)
+    public static void HelloWorldWithLogger(ILogger myLogger)
     {
-        myLogger.Info("Hello World from TweetLibrary logger.");
+        myLogger.LogInformation("Hello World from TweetLibrary logger.");
     }
 
 }

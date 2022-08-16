@@ -7,6 +7,9 @@ using System.IO;
 using System.Reflection;
 using System.Configuration;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Log4Net;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using TweetLibrary;
 using TweetLibrary.Interfaces;
@@ -18,83 +21,66 @@ public class Program
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IHttpClientServiceImplementation, HttpClientTwitterStreamService>();
+            services.AddScoped<ITweetProcessor, TweetProcessor>();
+            services.AddScoped<ITweetStatsProcessor, TweetStatsProcessor>();
+            services.AddTransient<TweetConsole>();
+        }
+
+        public static void ConfigureLogging(ILoggingBuilder lb)
+        {
+                if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["Log4Net_Configuration"]))
+                {  
+                    lb.ClearProviders();
+                    var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+                    XmlConfigurator.Configure(logRepository, new FileInfo(ConfigurationManager.AppSettings["Log4Net_Configuration"]));
+                    lb.AddLog4Net();
+                }
+
+            lb.SetMinimumLevel(LogLevel.Trace);
         }
 
         public static void Main(string[] args)
         {   
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-
-             ServiceProvider provider = services.BuildServiceProvider();
-
-            if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["Log4Net_Configuration"]))
-            {  
-                var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-                XmlConfigurator.Configure(logRepository, new FileInfo(ConfigurationManager.AppSettings["Log4Net_Configuration"]));
-            }
-
-            try
-            {
-                myLogger.Info("Starting TweetPool console application.");
-
-                MainMenu(myLogger, provider, args);
-            }
-            catch (Exception e)
-            {
-                if (myLogger != null)
-                {
-                    if (e.InnerException != null)
-                        myLogger.Error("Error within TweetPool Main Program: " + e.InnerException.ToString());
-                    else
-                        myLogger.Error("Error within TweetPool Main Program: " + e.Message.ToString());
-                }
-            }
-        }
-
-        public static void MainMenu(ILog myLogger, ServiceProvider provider, string[] appArgs)
-        {
-            TweetProcessor mainProcessor = new TweetProcessor();
-            TweetStatsProcessor statsProcessor = new TweetStatsProcessor();
-            TweetStats mainStats = new TweetStats();
-            TweetAgent myAgent = new TweetAgent(mainStats);
+            IHostBuilder myBuilder = null;
             
-            string commandEntry = "";
-            string mainArgument = "";
-
-                if (appArgs.Length > 0)
+                if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["Log4Net_Configuration"]))
+                {  
+                     myBuilder = Host
+                    .CreateDefaultBuilder(args).ConfigureServices( services => { ConfigureServices(services); } )
+                    .ConfigureLogging(logBuilder => { ConfigureLogging(logBuilder); })
+                    .UseConsoleLifetime();
+                }
+                else
                 {
-                    mainArgument = appArgs[0];
+                    myBuilder = Host
+                    .CreateDefaultBuilder(args)
+                    .ConfigureServices( services => { ConfigureServices(services); } )
+                    .UseConsoleLifetime();
                 }
 
-                do
+            var myHost = myBuilder.Build();
+
+            using (var myServiceScope = myHost.Services.CreateScope())
+            {
+                var provider = myServiceScope.ServiceProvider;
+
+                try
                 {
-                    switch (mainArgument)
+                    myLogger.Info("Establishing service host.");
+
+                    var myTweetConsole = provider.GetRequiredService<TweetConsole>();
+                    myTweetConsole.Run(args, provider);
+                }
+                catch (Exception e)
+                {
+                    if (myLogger != null)
                     {
-                            case "/p":
-                                        mainProcessor.ProcessTweets(myLogger, provider, myAgent);
-                                break;
-                            case "/s":
-                                        statsProcessor.ProcessStats(myLogger, myAgent);
-                                break;
-                            default:
-                                Console.WriteLine("-------------------------\n");
-                                Console.WriteLine("TweetPool Console Client.\n");
-                                Console.WriteLine("-------------------------\n");
-                                Console.WriteLine("Argument ------------ \tDescription\n");
-                                Console.WriteLine("/p\t\t\tProcess the Twitter Stream.");
-                                Console.WriteLine("/s\t\t\tReview the Twitter Stream Statistics.");
-                                Console.WriteLine("-------------------------\n");
-                                break;
+                        if (e.InnerException != null)
+                            myLogger.Error("Error within TweetPool Main Program: " + e.InnerException.ToString());
+                        else
+                            myLogger.Error("Error within TweetPool Main Program: " + e.Message.ToString());
                     }
-
-                Console.WriteLine("\n You may either [1] Press enter for help, [2] Enter an Argument to Proceed, or [3] Type 'stop' to end  . . .");
-                commandEntry = Console.ReadLine();
-
-                    if (commandEntry.Contains("/"))
-                        mainArgument = commandEntry;
-                    else
-                        mainArgument = "";
-
-            } while (!commandEntry.ToLower().Equals("stop"));
+                }
+            }
         }
 }

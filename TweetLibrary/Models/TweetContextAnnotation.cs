@@ -7,8 +7,8 @@ using System.Text.Json.Serialization;
 /// </summary>
 public class TweetContextAnnotation
 {
-    private TweetContextAnnotationDetails? domain;
-    private TweetContextAnnotationDetails? entity;
+    private TweetContextAnnotationDetails? domain = new TweetContextAnnotationDetails();
+    private TweetContextAnnotationDetails? entity = new TweetContextAnnotationDetails();
 
     /// <summary>
     /// Domain details
