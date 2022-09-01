@@ -62,11 +62,11 @@ public async Task HandleAPIResponse(HttpResponseMessage serverResponse, ILogger 
                                                 if (myTweet != null)
                                                 {
                                                     myAgentStats.TweetCount = myAgentStats.TweetCount + 1;
-                                                    MatchCollection tweetHashTags = myTweet.data.hashTags;
+                                                    MatchCollection tweetHashTags = myTweet.data.dollarTags;
 
                                                     foreach (Match match in tweetHashTags)
                                                     {
-                                                        string matchKey = match.Value;
+                                                        string matchKey = match.Value.ToUpper();
 
                                                         if (((SortedDictionary<string,int>)myAgentStats.HashTagLeaderboard).ContainsKey(matchKey))
                                                         {

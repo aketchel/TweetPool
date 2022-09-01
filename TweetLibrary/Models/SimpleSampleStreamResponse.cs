@@ -62,6 +62,8 @@ public class SimpleSampleStreamResponse
         public string text { get { return this.myText; } set { this.myText = value; } }
 
         public MatchCollection hashTags { get { Regex? hashExp = new Regex(@"#\w+"); return hashExp.Matches(this.myText); } }
+        
+        public MatchCollection dollarTags { get { Regex? hashExp = new Regex(@"\$[A-Za-z]+"); return hashExp.Matches(this.myText); } }
 
         public string ToString()
         {

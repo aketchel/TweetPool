@@ -25,12 +25,15 @@ public class TweetStatsProcessor : ITweetStatsProcessor
                         int numberOfHashTagsToDisplay = Convert.ToInt32(ConfigurationManager.AppSettings["TweetPool_NumberOfHashtags"]);
 
                         foreach (KeyValuePair<string, int> hashTag in myStats.HashTagLeaderboard.OrderByDescending(d => d.Value))
-                        {
-                            numberOfHashTagsToDisplay--;
-                            myLogger.LogInformation(hashTag.Key + ": " + hashTag.Value.ToString() + "\n");
+                        {                           
+                            if (!getTagIgnoreList().Contains(hashTag.Key))
+                            {
+                                numberOfHashTagsToDisplay--;
+                                myLogger.LogInformation(hashTag.Key + ": " + hashTag.Value.ToString() + "\n");
 
-                            if (numberOfHashTagsToDisplay <= 0)
-                                break;
+                                if (numberOfHashTagsToDisplay <= 0)
+                                    break;
+                            }
                         }
                     }
                     else
@@ -43,5 +46,18 @@ public class TweetStatsProcessor : ITweetStatsProcessor
                 myLogger.LogError("Error Processing Stats.");
             }
 
+    }
+
+    public List<string> getTagIgnoreList()
+    {
+        List<string> ignoreList = new List<String>();
+
+        String strIgnoreList = ConfigurationManager.AppSettings["TweetPool_TagIgnoreList"];
+
+        if (!String.IsNullOrEmpty(strIgnoreList))
+            ignoreList = strIgnoreList.Split(',', StringSplitOptions.TrimEntries & StringSplitOptions.RemoveEmptyEntries).ToList();
+
+        
+         return ignoreList;
     }
 }
